@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #f5f4f1;
+    color: #0c1f3f;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+    letter-spacing: -0.025em;
+  }
+
+  * {
+    transition-property: color, background-color, border-color, opacity, box-shadow, transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+  .gradient-navy {
+    background: linear-gradient(135deg, #0c1f3f 0%, #1a3a6b 100%);
+  }
+  .gradient-gold {
+    background: linear-gradient(135deg, #e8920a 0%, #f5b93a 100%);
+  }
+}

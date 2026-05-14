@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\patri\\\\municipal-calendar\" -Recurse -Force)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "WebSearch",
+      "WebFetch(domain:pco.gov.ph)",
+      "WebFetch(domain:newsinfo.inquirer.net)",
+      "WebFetch(domain:www.rappler.com)",
+      "WebFetch(domain:www.thesummitexpress.com)",
+      "WebFetch(domain:www.globe.com.ph)",
+      "WebFetch(domain:lightoflove.com.ph)",
+      "WebFetch(domain:www.timeanddate.com)",
+      "WebFetch(domain:www.officeholidays.com)",
+      "WebFetch(domain:www.pna.gov.ph)",
+      "WebFetch(domain:goodnewspilipinas.com)",
+      "Bash(del \"c:\\\\Users\\\\patri\\\\municipal-calendar\\\\src\\\\lib\\\\storage.js\")",
+      "Read(//c/Users/patri/.claude/projects/c--Users-patri-municipal-calendar/memory/**)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\patri\\.claude\\projects\\c--Users-patri-municipal-calendar\\memory"
+    ]
+  }
+}
