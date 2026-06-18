@@ -28,22 +28,23 @@ function FieldError({ msg }) {
   return <p className="text-[11px] text-red-500 mt-1 font-semibold">{msg}</p>;
 }
 
-export default function EventForm({ event, defaultDate, onSubmit, onCancel }) {
+export default function EventForm({ event, initialData, defaultDate, onSubmit, onCancel }) {
+  const prefill = event || initialData;
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
-      title:       event?.title       || '',
-      date:        event?.date        || defaultDate || '',
-      endDate:     event?.endDate     || '',
-      startTime:   event?.startTime   || '',
-      endTime:     event?.endTime     || '',
-      location:    event?.location    || '',
-      category:    event?.category    || 'others',
-      description: event?.description || '',
-      organizer:   event?.organizer   || '',
-      contactInfo: event?.contactInfo || '',
-      isPublic:    event?.isPublic    ?? true,
-      status:      event?.status      || 'published',
+      title:       prefill?.title       || '',
+      date:        prefill?.date        || defaultDate || '',
+      endDate:     prefill?.endDate     || '',
+      startTime:   prefill?.startTime   || '',
+      endTime:     prefill?.endTime     || '',
+      location:    prefill?.location    || '',
+      category:    prefill?.category    || 'others',
+      description: prefill?.description || '',
+      organizer:   prefill?.organizer   || '',
+      contactInfo: prefill?.contactInfo || '',
+      isPublic:    prefill?.isPublic    ?? true,
+      status:      prefill?.status      || 'published',
     },
   });
 

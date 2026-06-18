@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Eye, Pencil, Trash2, CalendarDays, MapPin, Lock } from 'lucide-react';
+import { Eye, Pencil, Trash2, CalendarDays, MapPin, Lock, Copy } from 'lucide-react';
 import { CATEGORIES } from '../../lib/constants';
 import { formatDateFilipino } from '../../lib/dateHelpers';
+import DuplicateEventModal from './DuplicateEventModal';
 
 const STATUS = {
   published: { label: 'Published', cls: 'bg-emerald-100 text-emerald-700 border-emerald-200' },
@@ -10,6 +12,8 @@ const STATUS = {
 };
 
 export default function EventTable({ events, onView, onDelete }) {
+  const [toDuplicate, setToDuplicate] = useState(null);
+
   if (events.length === 0) {
     return (
       <div className="text-center py-16 bg-white rounded-2xl border border-stone-200 shadow-card">
@@ -112,6 +116,13 @@ export default function EventTable({ events, onView, onDelete }) {
                       <Pencil size={14} />
                     </Link>
                     <button
+                      onClick={() => setToDuplicate(e)}
+                      className="p-2 rounded-xl hover:bg-blue-50 text-slate-400 hover:text-royal transition-all"
+                      title="Duplicate to another year"
+                    >
+                      <Copy size={14} />
+                    </button>
+                    <button
                       onClick={() => onDelete(e.id)}
                       className="p-2 rounded-xl hover:bg-red-50 text-slate-400 hover:text-red-500 transition-all"
                       title="Delete"
@@ -125,6 +136,12 @@ export default function EventTable({ events, onView, onDelete }) {
           })}
         </tbody>
       </table>
+
+      <DuplicateEventModal
+        event={toDuplicate}
+        isOpen={!!toDuplicate}
+        onClose={() => setToDuplicate(null)}
+      />
     </div>
   );
 }

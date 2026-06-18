@@ -1,14 +1,16 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Info, CheckCircle2, AlertCircle } from 'lucide-react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { ArrowLeft, Info, CheckCircle2, AlertCircle, Copy } from 'lucide-react';
 import { useEvents } from '../../contexts/EventsContext';
 import EventForm from '../../components/events/EventForm';
 
 export default function EventEdit() {
   const { id }         = useParams();
   const navigate       = useNavigate();
+  const location       = useLocation();
   const { addEvent, updateEvent, getEventById } = useEvents();
   const event = id ? getEventById(id) : null;
   const isNew = !id;
+  const duplicateFrom = isNew ? location.state?.duplicateFrom : null;
 
   const handleSubmit = (data) => {
     if (isNew) addEvent(data);
@@ -39,6 +41,12 @@ export default function EventEdit() {
         <p className="text-slate-400 text-sm font-medium mt-0.5">
           {isNew ? 'Fill in the details below to add a new event.' : 'Update the event information below.'}
         </p>
+        {duplicateFrom && (
+          <div className="flex items-center gap-2 mt-3 bg-royal/5 border border-royal/15 rounded-xl px-4 py-2.5 text-xs font-semibold text-royal">
+            <Copy size={13} />
+            Duplicated from "{duplicateFrom.title}" — review and edit the details below before saving.
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
@@ -46,6 +54,7 @@ export default function EventEdit() {
         <div className="lg:col-span-2 bg-white rounded-2xl border border-stone-200 shadow-card p-6">
           <EventForm
             event={event}
+            initialData={duplicateFrom}
             onSubmit={handleSubmit}
             onCancel={() => navigate('/admin/events')}
           />

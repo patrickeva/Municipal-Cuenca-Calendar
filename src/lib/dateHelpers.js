@@ -46,3 +46,14 @@ export function formatDayNum(dateStr) {
 export function todayStr() {
   return format(new Date(), 'yyyy-MM-dd');
 }
+
+// Shifts a 'YYYY-MM-DD' date string forward by N years, keeping month/day.
+// Falls back to Feb 28 when Feb 29 doesn't exist in the target year.
+export function shiftYear(dateStr, years) {
+  if (!dateStr) return dateStr;
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const targetYear = y + years;
+  const isLeap = (yr) => (yr % 4 === 0 && yr % 100 !== 0) || yr % 400 === 0;
+  const day = (m === 2 && d === 29 && !isLeap(targetYear)) ? 28 : d;
+  return `${targetYear}-${String(m).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+}

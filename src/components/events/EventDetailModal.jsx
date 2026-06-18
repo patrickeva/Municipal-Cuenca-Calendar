@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Calendar, Clock, MapPin, User, Phone, Pencil, Trash2 } from 'lucide-react';
+import { Calendar, Clock, MapPin, User, Phone, Pencil, Trash2, Copy } from 'lucide-react';
 import Modal from '../ui/Modal';
 import CategoryBadge from './CategoryBadge';
 import { CATEGORIES } from '../../lib/constants';
 import { formatDateFilipino, formatTime12 } from '../../lib/dateHelpers';
 
-export default function EventDetailModal({ event, isOpen, onClose, onEdit, onDelete }) {
+export default function EventDetailModal({ event, isOpen, onClose, onEdit, onDelete, onDuplicate }) {
   const [confirmDel, setConfirmDel] = useState(false);
 
   if (!event) return null;
@@ -88,6 +88,15 @@ export default function EventDetailModal({ event, isOpen, onClose, onEdit, onDel
               >
                 <Pencil size={13} />
                 Edit
+              </button>
+            )}
+            {onDuplicate && (
+              <button
+                onClick={() => onDuplicate(event)}
+                className="flex items-center gap-1.5 bg-royal/10 text-royal rounded-lg px-4 py-2 text-xs font-semibold hover:bg-royal/20"
+              >
+                <Copy size={13} />
+                Duplicate
               </button>
             )}
             {onDelete && (

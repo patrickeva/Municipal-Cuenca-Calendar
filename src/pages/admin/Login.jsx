@@ -1,15 +1,26 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { ArrowLeft, Lock, Mail } from 'lucide-react';
+import { ArrowLeft, Lock, Mail, Eye, EyeOff } from 'lucide-react';
+
+const AUTH_ERROR_MESSAGES = {
+  'auth/invalid-credential': 'Invalid email or password. Please try again.',
+  'auth/user-not-found': 'No admin account found with that email.',
+  'auth/wrong-password': 'Incorrect password. Please try again.',
+  'auth/invalid-email': 'Please enter a valid email address.',
+  'auth/too-many-requests': 'Too many failed attempts. Please wait a moment and try again.',
+  'auth/network-request-failed': 'Network error. Check your internet connection.',
+  'auth/invalid-api-key': 'Firebase is misconfigured (invalid API key). Contact your developer.',
+};
 
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail]       = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError]       = useState('');
-  const [loading, setLoading]   = useState(false);
+  const [email, setEmail]             = useState('');
+  const [password, setPassword]       = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError]             = useState('');
+  const [loading, setLoading]         = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,8 +29,8 @@ export default function Login() {
     try {
       await login(email.trim(), password);
       navigate('/admin');
-    } catch {
-      setError('Invalid email or password. Please try again.');
+    } catch (err) {
+      setError(AUTH_ERROR_MESSAGES[err.code] || `Login failed: ${err.code || err.message}`);
     } finally {
       setLoading(false);
     }
@@ -117,12 +128,21 @@ export default function Login() {
                 <div className="relative">
                   <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                   <input
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => { setPassword(e.target.value); setError(''); }}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-stone-200 bg-white text-sm focus:ring-2 focus:ring-navy/20 focus:border-navy/40 outline-none font-medium transition-all"
+                    className="w-full pl-10 pr-11 py-3 rounded-xl border border-stone-200 bg-white text-sm focus:ring-2 focus:ring-navy/20 focus:border-navy/40 outline-none font-medium transition-all"
                     placeholder="••••••••"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-navy transition-colors"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    tabIndex={-1}
+                  >
+                    {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+                  </button>
                 </div>
               </div>
 

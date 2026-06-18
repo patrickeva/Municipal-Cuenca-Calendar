@@ -7,6 +7,7 @@ import EventTable from '../../components/admin/EventTable';
 import DataExport from '../../components/admin/DataExport';
 import EventDetailModal from '../../components/events/EventDetailModal';
 import ConfirmModal from '../../components/ui/ConfirmModal';
+import DuplicateEventModal from '../../components/admin/DuplicateEventModal';
 
 const PAGE_SIZE = 10;
 
@@ -20,6 +21,7 @@ export default function EventsList() {
   const [showDetail,   setShowDetail]  = useState(false);
   const [toDelete,     setToDelete]    = useState(null);
   const [deleting,     setDeleting]    = useState(false);
+  const [toDuplicate,  setToDuplicate] = useState(null);
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase();
@@ -159,6 +161,7 @@ export default function EventsList() {
         onClose={() => setShowDetail(false)}
         onEdit={() => setShowDetail(false)}
         onDelete={(id) => { setShowDetail(false); handleDeleteClick(id); }}
+        onDuplicate={(e) => { setShowDetail(false); setToDuplicate(e); }}
       />
 
       {/* Delete confirmation */}
@@ -172,6 +175,13 @@ export default function EventsList() {
         onConfirm={handleDeleteConfirm}
         onCancel={() => setToDelete(null)}
         loading={deleting}
+      />
+
+      {/* Duplicate to another year */}
+      <DuplicateEventModal
+        event={toDuplicate}
+        isOpen={!!toDuplicate}
+        onClose={() => setToDuplicate(null)}
       />
     </div>
   );
