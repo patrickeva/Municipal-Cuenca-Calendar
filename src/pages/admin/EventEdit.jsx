@@ -49,9 +49,9 @@ export default function EventEdit() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
         {/* Form — takes 2/3 */}
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-stone-200 shadow-card p-6">
+        <div className="xl:col-span-2 bg-white rounded-2xl border border-stone-200 shadow-card p-6">
           <EventForm
             event={event}
             initialData={duplicateFrom}

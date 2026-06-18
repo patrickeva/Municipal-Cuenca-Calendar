@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { Menu } from 'lucide-react';
 import { useEvents, EventsProvider } from './contexts/EventsContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { SettingsProvider } from './contexts/SettingsContext';
@@ -39,12 +41,27 @@ function PublicLayout() {
 }
 
 function AdminLayout() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
-    <div className="flex min-h-screen">
-      <AdminSidebar />
-      <main className="flex-1 bg-gray-50 overflow-auto">
-        <Outlet />
-      </main>
+    <div className="flex h-screen overflow-hidden">
+      <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+        {/* Mobile top bar */}
+        <div className="lg:hidden flex-shrink-0 flex items-center gap-3 bg-navy px-4 py-3 shadow-sm">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="text-white p-1.5 -ml-1.5 rounded-lg hover:bg-white/10 transition-colors"
+            aria-label="Open menu"
+          >
+            <Menu size={20} />
+          </button>
+          <span className="text-white font-bold text-sm tracking-tight">Admin Portal</span>
+        </div>
+        <main className="flex-1 bg-gray-50 overflow-y-auto">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }

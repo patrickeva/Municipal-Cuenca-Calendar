@@ -41,9 +41,12 @@ export default function Dashboard() {
     .sort((a, b) => (b.updatedAt || '').localeCompare(a.updatedAt || ''))
     .slice(0, 5);
 
+  const currentYear   = new Date().getFullYear();
+  const thisYearEvents = events.filter((e) => e.date.startsWith(String(currentYear)));
+
   const byCat = Object.keys(CATEGORIES).map((k) => ({
     key: k, label: CATEGORIES[k].label, color: CATEGORIES[k].color,
-    count: events.filter((e) => e.category === k).length,
+    count: thisYearEvents.filter((e) => e.category === k).length,
   })).filter((c) => c.count > 0).sort((a, b) => b.count - a.count);
   const maxCount = Math.max(...byCat.map((c) => c.count), 1);
 
@@ -128,10 +131,10 @@ export default function Dashboard() {
       </div>
 
       {/* Main grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
 
         {/* Upcoming Events */}
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-card">
+        <div className="xl:col-span-2 bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-card">
           <div className="flex items-center justify-between px-5 py-4 border-b border-stone-100 bg-gradient-to-r from-stone-50 to-white">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-royal/10 flex items-center justify-center">
@@ -183,7 +186,9 @@ export default function Dashboard() {
             <div className="w-8 h-8 rounded-lg bg-gold/10 flex items-center justify-center">
               <BarChart3 size={15} className="text-gold" />
             </div>
-            <h2 className="font-extrabold text-sm text-navy uppercase tracking-wider font-display">By Category</h2>
+            <h2 className="font-extrabold text-sm text-navy uppercase tracking-wider font-display">
+              By Category <span className="text-slate-400 normal-case font-semibold">· {currentYear}</span>
+            </h2>
           </div>
           <div className="px-5 py-4 space-y-3.5">
             {byCat.length === 0 ? (

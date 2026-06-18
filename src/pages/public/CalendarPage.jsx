@@ -5,6 +5,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import CalendarGrid from '../../components/calendar/CalendarGrid';
 import CategoryFilter from '../../components/calendar/CategoryFilter';
 import UpcomingList from '../../components/calendar/UpcomingList';
+import DayEventsModal from '../../components/calendar/DayEventsModal';
 import EventDetailModal from '../../components/events/EventDetailModal';
 import EventForm from '../../components/events/EventForm';
 import Modal from '../../components/ui/Modal';
@@ -24,6 +25,9 @@ export default function CalendarPage() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedEvent, setSelEvent]    = useState(null);
   const [showAdd, setShowAdd]           = useState(false);
+  const [dayDate, setDayDate]           = useState(null);
+  const [dayEvents, setDayEvents]       = useState([]);
+  const [showDayEvents, setShowDayEvents] = useState(false);
   const [showDetail, setShowDetail]     = useState(false);
   const [showEdit, setShowEdit]         = useState(false);
   const [toDelete, setToDelete]         = useState(null);
@@ -56,9 +60,26 @@ export default function CalendarPage() {
     setShowAdd(true);
   };
 
+  const openDay = (date, evts) => {
+    if (evts.length === 0 && isAdmin) { openAdd(date); return; }
+    setDayDate(date);
+    setDayEvents(evts);
+    setShowDayEvents(true);
+  };
+
   const openDetail = (evt) => {
     setSelEvent(evt);
     setShowDetail(true);
+  };
+
+  const openDetailFromDay = (evt) => {
+    setShowDayEvents(false);
+    openDetail(evt);
+  };
+
+  const openAddFromDay = () => {
+    setShowDayEvents(false);
+    openAdd(dayDate);
   };
 
   const handleEdit = () => {
@@ -142,7 +163,7 @@ export default function CalendarPage() {
               year={year}
               month={month}
               events={filtered}
-              onDayClick={isAdmin ? openAdd : null}
+              onDayClick={openDay}
               onEventClick={openDetail}
             />
           </div>
@@ -168,6 +189,16 @@ export default function CalendarPage() {
           onCancel={() => setShowAdd(false)}
         />
       </Modal>
+
+      {/* Day Events Modal */}
+      <DayEventsModal
+        date={dayDate}
+        events={dayEvents}
+        isOpen={showDayEvents}
+        onClose={() => setShowDayEvents(false)}
+        onEventClick={openDetailFromDay}
+        onAddEvent={isAdmin ? openAddFromDay : null}
+      />
 
       {/* Detail Modal */}
       <EventDetailModal

@@ -1,6 +1,6 @@
 import { Clock, MapPin } from 'lucide-react';
 import { formatMonthAbbr, formatDayNum, formatTime12 } from '../../lib/dateHelpers';
-import { CATEGORIES } from '../../lib/constants';
+import { CATEGORIES, MONTHS } from '../../lib/constants';
 
 function UpcomingItem({ event, onEventClick }) {
   const cat = CATEGORIES[event.category] || CATEGORIES.others;
@@ -44,7 +44,24 @@ function UpcomingItem({ event, onEventClick }) {
   );
 }
 
+function groupByMonth(events) {
+  const groups = [];
+  let lastKey = null;
+  for (const evt of events) {
+    const d = new Date(evt.date + 'T00:00:00');
+    const key = `${d.getFullYear()}-${d.getMonth()}`;
+    if (key !== lastKey) {
+      groups.push({ key, label: `${MONTHS[d.getMonth()]} ${d.getFullYear()}`, events: [] });
+      lastKey = key;
+    }
+    groups[groups.length - 1].events.push(evt);
+  }
+  return groups;
+}
+
 export default function UpcomingList({ events, onEventClick }) {
+  const groups = groupByMonth(events);
+
   return (
     <div className="bg-white rounded-xl border border-stone-200 p-4 h-full">
       <h3 className="font-extrabold text-sm text-navy mb-4 tracking-tight font-display flex items-center gap-2">
@@ -55,9 +72,18 @@ export default function UpcomingList({ events, onEventClick }) {
       {events.length === 0 ? (
         <p className="text-xs text-slate-400 text-center py-8 font-medium">No upcoming events.</p>
       ) : (
-        <div className="space-y-1">
-          {events.map((evt) => (
-            <UpcomingItem key={evt.id} event={evt} onEventClick={onEventClick} />
+        <div className="space-y-4">
+          {groups.map((g) => (
+            <div key={g.key}>
+              <p className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-2.5 mb-1.5">
+                {g.label}
+              </p>
+              <div className="space-y-1">
+                {g.events.map((evt) => (
+                  <UpcomingItem key={evt.id} event={evt} onEventClick={onEventClick} />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       )}

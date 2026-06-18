@@ -67,7 +67,7 @@ export default function EventForm({ event, initialData, defaultDate, onSubmit, o
         <FieldError msg={errors.title?.message} />
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label className={label}>Date <span className="text-red-400">*</span></label>
           <input type="date" {...register('date')} className={field} />
@@ -79,7 +79,7 @@ export default function EventForm({ event, initialData, defaultDate, onSubmit, o
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label className={label}>Start Time</label>
           <input type="time" {...register('startTime')} className={field} />
@@ -116,7 +116,7 @@ export default function EventForm({ event, initialData, defaultDate, onSubmit, o
         <FieldError msg={errors.description?.message} />
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label className={label}>Organizer</label>
           <input {...register('organizer')} className={field} placeholder="e.g. Mayor's Office" />
@@ -127,7 +127,7 @@ export default function EventForm({ event, initialData, defaultDate, onSubmit, o
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label className={label}>Status</label>
           <select {...register('status')} className={field + ' bg-white'}>

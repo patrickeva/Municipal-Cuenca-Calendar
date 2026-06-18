@@ -8,21 +8,21 @@ export default function Header() {
 
   return (
     <header className="bg-navy sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto px-5 h-14 flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-5 h-14 flex items-center justify-between gap-2 sm:gap-4">
         {/* Logo + Name */}
-        <Link to="/" className="flex items-center gap-2.5 flex-shrink-0 group">
+        <Link to="/" className="flex items-center gap-2 sm:gap-2.5 min-w-0 group">
           <div className="w-7 h-7 rounded-md bg-gold flex items-center justify-center flex-shrink-0">
             <span className="text-white font-bold text-[10px] leading-none tracking-wide">LGU</span>
           </div>
-          <div>
-            <p className="text-white font-semibold text-sm leading-tight tracking-tight">
+          <div className="min-w-0">
+            <p className="text-white font-semibold text-xs sm:text-sm leading-tight tracking-tight truncate">
               Municipality of Cuenca
             </p>
-            <p className="text-gold/80 text-[11px] leading-none font-medium">Province of Batangas</p>
+            <p className="hidden sm:block text-gold/80 text-[11px] leading-none font-medium">Province of Batangas</p>
           </div>
         </Link>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
           <PublicNav />
 
           {/* Admin button */}

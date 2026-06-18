@@ -28,7 +28,8 @@ export default function EventTable({ events, onView, onDelete }) {
 
   return (
     <div className="bg-white rounded-2xl border border-stone-200 shadow-card overflow-hidden">
-      <table className="w-full text-sm">
+      <div className="overflow-x-auto">
+      <table className="w-full text-sm min-w-[640px]">
         <thead>
           <tr className="border-b-2 border-stone-100 text-left" style={{ background: 'linear-gradient(135deg, #f8f7f4, #ffffff)' }}>
             <th className="px-5 py-3.5 text-[11px] font-extrabold text-slate-400 uppercase tracking-widest">Date</th>
@@ -136,6 +137,7 @@ export default function EventTable({ events, onView, onDelete }) {
           })}
         </tbody>
       </table>
+      </div>
 
       <DuplicateEventModal
         event={toDuplicate}
